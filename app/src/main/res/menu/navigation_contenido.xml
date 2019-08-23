@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_evento"
-        android:icon="@drawable/ic_action_registro"
+        android:icon="@drawable/ic_action_evento"
         android:title="@string/menu_evento" />
     <item
         android:id="@+id/navigation_actividades"
-        android:icon="@drawable/ic_action_registro"
+        android:icon="@drawable/ic_action_actividades"
         android:title="@string/menu_actividades" />
     <item
         android:id="@+id/navigation_instructores"
-        android:icon="@drawable/ic_action_registro"
+        android:icon="@drawable/ic_action_instructores"
         android:title="@string/menu_instructores" />
     <item
         android:id="@+id/navigation_alojamiento"
-        android:icon="@drawable/ic_action_registro"
+        android:icon="@drawable/ic_action_alojamiento"
         android:title="@string/menu_alojamiento" />
 </menu>

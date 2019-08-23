@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/principla_fav"
-        android:icon="@drawable/ic_action_login"
+        android:icon="@drawable/ic_action_fav"
         android:title="@string/menu_fav"
         app:showAsAction="always"/>
     <item
         android:id="@+id/principal_perfil"
-        android:icon="@drawable/ic_action_registro"
+        android:icon="@drawable/ic_action_perfil"
         android:title="@string/menu_perfil"
         app:showAsAction="always"/>
 </menu>

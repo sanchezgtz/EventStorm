@@ -20,4 +20,6 @@
     <string name="menu_actividades">Actividades</string>
     <string name="menu_instructores">Instructores</string>
     <string name="menu_alojamiento">Alojamiento</string>
+    <string name="titulo_perfil">Mi perfil</string>
+    <string name="titulo_inscritos">Mis Eventos</string>
 </resources>
