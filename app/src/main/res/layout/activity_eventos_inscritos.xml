@@ -12,9 +12,9 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
-        app:title="@string/titulo_inscritos"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/titulo_inscritos" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_inscritos"
