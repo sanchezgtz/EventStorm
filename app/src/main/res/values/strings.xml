@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">EventStorm</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_registrar">Registrar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="ht_user">correo</string>
+    <string name="ht_contrasena">contraseña</string>
+    <string name="btn_entrar">Entrar</string>hello_blank_fragment
+    <string name="no_usuario">No ingresó el correo</string>
+    <string name="no_password">No ingresó el password</string>
+    <string name="error_login">Usuario o contraseña incorrectos</string>
+    <string name="btn_registrar">Registrar</string>
+    <string name="file_preferences">eventPrefence</string>
+    <string name="preference_username">userName</string>
+    <string name="registro_exitoso">El usuario fue registrado</string>
+    <string name="menu_fav">favoritos</string>
+    <string name="menu_perfil">perfeventStormil</string>
+    <string name="menu_evento">Evento</string>
+    <string name="menu_actividades">Actividades</string>
+    <string name="menu_instructores">Instructores</string>
+    <string name="menu_alojamiento">Alojamiento</string>
+</resources>
