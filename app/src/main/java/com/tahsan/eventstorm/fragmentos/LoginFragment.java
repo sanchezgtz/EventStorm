@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.tahsan.eventstorm.MainActivity;
 import com.tahsan.eventstorm.R;
@@ -24,15 +25,15 @@ public class LoginFragment extends Fragment {
     EditText et_usuario;
     EditText et_contrasena;
     Button btn_entrar;
+    ProgressBar loadingProgess;
 
     public LoginFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -41,6 +42,7 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         EditText usuario = view.findViewById(R.id.et_usr_login);
+        loadingProgess = view.findViewById(R.id.pb_login);
 
         usuario.setText(Utileria.getPreference_String(getContext(),  getString(R.string.preference_username)));
 
@@ -62,7 +64,14 @@ public class LoginFragment extends Fragment {
         et_usuario = getView().findViewById(R.id.et_usr_login);
         et_contrasena = getView().findViewById(R.id.et_usr_pass);
         btn_entrar = getView().findViewById(R.id.btn_entrar);
+    }
 
+    private void showProgressBar() {
+        loadingProgess.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        loadingProgess.setVisibility(View.GONE);
     }
 
     private void entrar() {
@@ -78,15 +87,18 @@ public class LoginFragment extends Fragment {
         }
 
         String passMD5 = Utileria.md5(password);
+        showProgressBar();
 
         if (usr.equals("ricardo.sanchezgtz@gmail.com") && passMD5.equals("34f85ca8ec353d352b8a2d3973a0c5")) {
             Utileria.savePreference_String(getContext(), getString(R.string.preference_username), usr);
             Intent intent = new Intent(getContext(), MainActivity.class);
             intent.putExtra("UsuarioID", 1);
             startActivity(intent);
+            hideProgressBar();
             getActivity().finish();
         }
         else{
+            hideProgressBar();
             Toast.makeText(getContext(), getString(R.string.error_login), Toast.LENGTH_SHORT).show();
          }
      }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.tahsan.eventstorm.R;
@@ -19,6 +20,7 @@ public class RegistrarFragment extends Fragment {
     EditText et_usuario;
     EditText et_contrasena;
     Button btn_registrar;
+    ProgressBar loadingProgess;
 
     public RegistrarFragment() {
         // Required empty public constructor
@@ -37,6 +39,8 @@ public class RegistrarFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_registrar, container, false);
         et_usuario = view.findViewById(R.id.userReg);
         Button button =  view.findViewById(R.id.btn_registrar);
+        loadingProgess = view.findViewById(R.id.pb_registrar);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,9 +50,19 @@ public class RegistrarFragment extends Fragment {
         return view;
     }
 
+    private void showProgressBar() {
+        loadingProgess.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        loadingProgess.setVisibility(View.GONE);
+    }
+
     private void registart(){
+        showProgressBar();
         String userMD5 = Utileria.md5(et_usuario.getText().toString());
         Toast.makeText(getContext(), getActivity().getString(R.string.registro_exitoso), Toast.LENGTH_SHORT).show();
+        hideProgressBar();
     }
 
 }
