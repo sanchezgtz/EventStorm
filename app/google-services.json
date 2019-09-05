@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "525292856414",
+    "firebase_url": "https://eventstorm-dce4c.firebaseio.com",
+    "project_id": "eventstorm-dce4c",
+    "storage_bucket": "eventstorm-dce4c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525292856414:android:89cac48c1c1c598d08c0cf",
+        "android_client_info": {
+          "package_name": "com.example.prueba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "525292856414-h78qd906gpijrevmb4l4dduvp6t77nag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGmNmz6cSa06dn00DsG_D1ZhQOClI8LI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "525292856414-h78qd906gpijrevmb4l4dduvp6t77nag.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
