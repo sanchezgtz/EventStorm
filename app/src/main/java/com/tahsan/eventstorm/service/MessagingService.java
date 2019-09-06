@@ -16,9 +16,10 @@ public class MessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.d("MessagingService", "From: " + remoteMessage.getFrom());
+
         if (remoteMessage.getData().size() > 0) {
-            Log.d("MessagingService", "Message data payload: " + remoteMessage.getData());
+
+            String value = remoteMessage.getData().get("eventId");
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "channel_id")
                     .setContentTitle(remoteMessage.getNotification().getTitle())

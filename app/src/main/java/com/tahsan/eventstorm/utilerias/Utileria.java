@@ -41,4 +41,9 @@ public class Utileria {
         return sharedPreferences.getString(key, "");
     }
 
+    public static void deletePreference_String(Context context, String key){
+        SharedPreferences settings = context.getSharedPreferences(key, Context.MODE_PRIVATE);
+        settings.edit().remove(key).commit();
+    }
+
 }

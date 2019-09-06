@@ -23,4 +23,6 @@
     <string name="titulo_perfil">Mi perfil</string>
     <string name="titulo_inscritos">Mis Eventos</string>
     <string name="fcm_token">FCM Token: %s</string>
+    <string name="recordarContraseña">recordar contraseña</string>
+    <string name="recordar_password">RecordarPass</string>
 </resources>

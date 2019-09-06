@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ProgressBar;
@@ -26,6 +27,7 @@ public class LoginFragment extends Fragment {
     EditText et_contrasena;
     Button btn_entrar;
     ProgressBar loadingProgess;
+    CheckBox check_Recordar;
 
     public LoginFragment() {
 
@@ -42,7 +44,16 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         EditText usuario = view.findViewById(R.id.et_usr_login);
+        final EditText et_contrasena = view.findViewById(R.id.et_usr_pass);
         loadingProgess = view.findViewById(R.id.pb_login);
+
+        check_Recordar = view.findViewById(R.id.checkBox_remember);
+
+        String pass = Utileria.getPreference_String(getContext(),  getString(R.string.recordar_password));
+        if(pass != "")
+            et_contrasena.setText(pass);
+
+        check_Recordar.setChecked( pass == "" ? false : true);
 
         usuario.setText(Utileria.getPreference_String(getContext(),  getString(R.string.preference_username)));
 
@@ -55,6 +66,26 @@ public class LoginFragment extends Fragment {
                 entrar();
             }
         });
+        check_Recordar.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                boolean checked = ((CheckBox) view).isChecked();
+                if(et_contrasena.getText().toString()!=""){
+                    if(view.getId() == R.id.checkBox_remember){
+                        if (checked)
+                        {
+                            Utileria.savePreference_String(getContext(), getString(R.string.recordar_password), et_contrasena.getText().toString());
+                        }
+                        else{
+                            Utileria.deletePreference_String(getContext(), getString(R.string.recordar_password));
+                        }
+                    }
+                }
+            }
+        });
+
+
         return view;
     }
 
@@ -85,6 +116,9 @@ public class LoginFragment extends Fragment {
             Toast.makeText(getContext(), getActivity().getString(R.string.no_password), Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if(check_Recordar.isChecked())
+            Utileria.savePreference_String(getContext(), getString(R.string.recordar_password), et_contrasena.getText().toString());
 
         String passMD5 = Utileria.md5(password);
         showProgressBar();
