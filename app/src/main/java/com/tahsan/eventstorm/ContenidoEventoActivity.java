@@ -23,6 +23,7 @@ public class ContenidoEventoActivity extends AppCompatActivity
 
         Toolbar myToolbar = findViewById(R.id.toolbar_contenido);
         setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle(getString(R.string.titulo_infoevento));
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        //getSupportActionBar().setTitle("My title");
 
         mEventos = new ArrayList<>();
         mEventos.add(new Evento(1, "Evento 1", "imagen"));

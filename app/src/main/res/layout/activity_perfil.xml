@@ -7,13 +7,9 @@
     android:orientation="vertical"
     tools:context=".PerfilActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <include layout="@layout/toolbar"
         android:id="@+id/toolbar_perfil"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="@string/titulo_perfil" />
+        app:title="@string/titulo_perfil"/>
+
+
 </LinearLayout>

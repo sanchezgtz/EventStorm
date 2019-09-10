@@ -7,15 +7,9 @@
     android:orientation="vertical"
     tools:context=".ContenidoEventoActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <include layout="@layout/toolbar"
         android:id="@+id/toolbar_contenido"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Info evento" />
+        app:title="Info evento"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nv_contenido"

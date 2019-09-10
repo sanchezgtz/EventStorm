@@ -6,15 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".EventosInscritosActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <include layout="@layout/toolbar"
         android:id="@+id/toolbar_inscritos"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="@string/titulo_inscritos" />
+        app:title="@string/titulo_inscritos"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_inscritos"

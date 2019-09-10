@@ -15,6 +15,7 @@ public class EventosInscritosActivity extends AppCompatActivity {
 
         Toolbar myToolbar = findViewById(R.id.toolbar_inscritos);
         setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle(getString(R.string.titulo_inscritos));
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
