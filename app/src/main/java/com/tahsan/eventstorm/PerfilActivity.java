@@ -13,7 +13,6 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-
         Toolbar myToolbar = findViewById(R.id.toolbar_perfil);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.titulo_perfil));

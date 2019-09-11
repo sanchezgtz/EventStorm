@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.tahsan.eventstorm.ContenidoEventoActivity;
 import com.tahsan.eventstorm.MainActivity;
 import com.tahsan.eventstorm.R;
 
@@ -33,9 +34,13 @@ public class MessagingService extends FirebaseMessagingService {
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setAutoCancel(true);
 
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                    new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent notifyIntent = new Intent(this, ContenidoEventoActivity.class);
+// Set the Activity to start in a new, empty task
+            notifyIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
+            PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                    notifyIntent, 0);
 
             notificationBuilder.setContentIntent(contentIntent);
 
