@@ -26,4 +26,5 @@
     <string name="fcm_token">FCM Token: %s</string>
     <string name="recordarContraseña">recordar contraseña</string>
     <string name="recordar_password">RecordarPass</string>
+    <string name="lastActivity">LastActivity</string>
 </resources>

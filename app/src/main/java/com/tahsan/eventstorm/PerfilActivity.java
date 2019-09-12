@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.tahsan.eventstorm.utilerias.Utileria;
+
 public class PerfilActivity extends AppCompatActivity {
 
     @Override
@@ -21,6 +23,14 @@ public class PerfilActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Utileria.savePreference_String(this, getString(R.string.lastActivity), getClass().getName());
     }
 
     @Override

@@ -35,7 +35,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setAutoCancel(true);
 
             Intent notifyIntent = new Intent(this, ContenidoEventoActivity.class);
-// Set the Activity to start in a new, empty task
+
             notifyIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                     | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 

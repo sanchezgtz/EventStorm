@@ -19,6 +19,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.tahsan.eventstorm.adapter.EventoListAdapter;
 import com.tahsan.eventstorm.pojo.Evento;
+import com.tahsan.eventstorm.utilerias.Utileria;
 
 import java.util.ArrayList;
 
@@ -85,6 +86,21 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu with custom menu items.
         menuInflater.inflate(R.menu.principal_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String lastActivity = Utileria.getPreference_String(this, getString(R.string.lastActivity));
+        if(lastActivity != ".")
+            Utileria.savePreference_String(this, getString(R.string.lastActivity), getClass().getName());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Utileria.savePreference_String(this, getString(R.string.lastActivity), ".");
+        finish();
     }
 
     @Override

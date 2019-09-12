@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.tahsan.eventstorm.adapter.ContenidoFragmentAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.tahsan.eventstorm.utilerias.Utileria;
 
 public class ContenidoEventoActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener{
@@ -52,7 +53,12 @@ public class ContenidoEventoActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             onNavigationItemSelected(navigation.getMenu().findItem(R.id.navigation_evento));
         }
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Utileria.savePreference_String(this, getString(R.string.lastActivity), getClass().getName());
     }
 
     @Override
