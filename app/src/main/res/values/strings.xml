@@ -26,5 +26,8 @@
     <string name="fcm_token">FCM Token: %s</string>
     <string name="recordarContraseña">recordar contraseña</string>
     <string name="recordar_password">RecordarPass</string>
-    <string name="lastActivity">LastActivity</string>
+    <string name="tokenApp">TokenApp</string>
+    <string name="correo_incorrecto">Correo incorrecto</string>
+    <string name="lastActivity">lastActivity</string>
+    <string name="error_registrar">Error al registrar</string>
 </resources>

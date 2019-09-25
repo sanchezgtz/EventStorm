@@ -2,6 +2,8 @@ package com.tahsan.eventstorm.utilerias;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
+import android.util.Patterns;
 
 import com.tahsan.eventstorm.R;
 
@@ -46,6 +48,10 @@ public class Utileria {
         SharedPreferences.Editor editor = pref.edit();
         editor.remove(key);
         editor.commit();
+    }
+
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
 }

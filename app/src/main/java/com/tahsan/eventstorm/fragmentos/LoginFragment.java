@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,20 @@ import android.widget.ProgressBar;
 
 import com.tahsan.eventstorm.MainActivity;
 import com.tahsan.eventstorm.R;
+import com.tahsan.eventstorm.RetrofitClient;
+import com.tahsan.eventstorm.pojo.LoginRequest;
+import com.tahsan.eventstorm.pojo.LoginResponse;
 import com.tahsan.eventstorm.utilerias.Utileria;
+
+import org.json.JSONObject;
+
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginFragment extends Fragment {
 
@@ -50,8 +65,8 @@ public class LoginFragment extends Fragment {
         check_Recordar = view.findViewById(R.id.checkBox_remember);
 
         String pass = Utileria.getPreference_String(getContext(),  getString(R.string.recordar_password));
-        if(pass != "")
-            et_contrasena.setText(pass);
+
+        if(pass != "")  et_contrasena.setText(pass);
 
         check_Recordar.setChecked( pass == "" ? false : true);
 
@@ -107,13 +122,18 @@ public class LoginFragment extends Fragment {
 
     private void entrar() {
         String usr = et_usuario.getText().toString(), password = et_contrasena.getText().toString();
-        if (usr == "") {
+        if (usr == "" || usr == null) {
             Toast.makeText(getContext(), getActivity().getString(R.string.no_usuario), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (password == "") {
+        if (password == "" || password == null) {
             Toast.makeText(getContext(), getActivity().getString(R.string.no_password), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!Utileria.isValidEmail(usr)){
+            Toast.makeText(getContext(), getActivity().getString(R.string.correo_incorrecto), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -123,17 +143,44 @@ public class LoginFragment extends Fragment {
         String passMD5 = Utileria.md5(password);
         showProgressBar();
 
-        if (usr.equals("ricardo.sanchezgtz@gmail.com") && passMD5.equals("34f85ca8ec353d352b8a2d3973a0c5")) {
-            Utileria.savePreference_String(getContext(), getString(R.string.preference_username), usr);
-            Intent intent = new Intent(getContext(), MainActivity.class);
-            intent.putExtra("UsuarioID", 1);
-            startActivity(intent);
-            hideProgressBar();
-            getActivity().finish();
-        }
-        else{
-            hideProgressBar();
-            Toast.makeText(getContext(), getString(R.string.error_login), Toast.LENGTH_SHORT).show();
-         }
+        Map<String, Object> jsonParams = new ArrayMap<>();
+        jsonParams.put("correo", usr);
+        jsonParams.put("passwSistema", passMD5);
+        jsonParams.put("token", "QWERTY");
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),(new JSONObject(jsonParams)).toString());
+
+        RetrofitClient.getServiceClass().getLogin(body).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(response.isSuccessful())
+                {
+                    LoginResponse reponseL = response.body();
+                    if(reponseL.exito){
+                        Utileria.savePreference_String(getContext(), getString(R.string.preference_username), reponseL.correo);
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.putExtra("UsuarioID", reponseL.idUsuario);
+                        startActivity(intent);
+                        hideProgressBar();
+                        getActivity().finish();
+                    }
+                    else{
+                        hideProgressBar();
+                        Toast.makeText(getContext(), reponseL.error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    hideProgressBar();
+                    Toast.makeText(getContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("LOGIN", response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                hideProgressBar();
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
      }
 }

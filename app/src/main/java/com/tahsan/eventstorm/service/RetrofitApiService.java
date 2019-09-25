@@ -1,16 +1,24 @@
 package com.tahsan.eventstorm.service;
 
+import com.tahsan.eventstorm.pojo.LoginRequest;
 import com.tahsan.eventstorm.pojo.LoginResponse;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.Body;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 
 public interface  RetrofitApiService {
 
-    @GET("login")
+    @Headers("Content-Type: application/json")
+    @POST("login")
     Call<LoginResponse> getLogin(
-            @Query("username") String username,
-            @Query("password") String password
-    );
+            @Body RequestBody login);
+
+    @Headers("Content-Type: application/json")
+    @POST("registeruser")
+    Call<LoginResponse> registrarUsuario(
+            @Body LoginRequest login);
+
 }
