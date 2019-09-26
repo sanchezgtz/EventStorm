@@ -117,8 +117,8 @@ public class LoginFragment extends Fragment {
     }
 
     private void entrar() {
-        String usr = et_usuario.getText().toString();
-        String password = et_contrasena.getText().toString();
+        String usr = et_usuario.getText().toString().trim();
+        String password = et_contrasena.getText().toString().trim();
         if (usr == "" || usr == null) {
             Toast.makeText(getContext(), getActivity().getString(R.string.no_usuario), Toast.LENGTH_SHORT).show();
             return;

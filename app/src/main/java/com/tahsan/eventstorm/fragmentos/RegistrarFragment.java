@@ -70,21 +70,23 @@ public class RegistrarFragment extends Fragment {
     }
 
     private void registart(){
+        String correo = et_usuario.getText().toString().trim();
+        String password = et_contrasena.getText().toString().trim();
 
-        if (et_usuario.getText().toString() == "" || et_usuario.getText().toString() == null) {
+        if (correo == "" || correo == null) {
             Toast.makeText(getContext(), getActivity().getString(R.string.no_usuario), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(et_contrasena.getText().toString() == "" || et_contrasena.getText().toString() == null){
+        if(password == "" || password == null){
             Toast.makeText(getContext(), getActivity().getString(R.string.no_password), Toast.LENGTH_SHORT).show();
             return;
         }
 
         showProgressBar();
-        String passD5 = Utileria.md5(et_contrasena.getText().toString());
+        String passD5 = Utileria.md5(password);
 
-        final LoginRequest register = new LoginRequest(et_usuario.getText().toString(), passD5, "QWERTY" );
+        final LoginRequest register = new LoginRequest(correo, passD5, "QWERTY" );
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Utileria.urlRegistrar,
                 new com.android.volley.Response.Listener<String>() {
