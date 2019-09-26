@@ -3,12 +3,9 @@ package com.tahsan.eventstorm.fragmentos;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.ArrayMap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,22 +15,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ProgressBar;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.tahsan.eventstorm.MainActivity;
 import com.tahsan.eventstorm.R;
-import com.tahsan.eventstorm.RetrofitClient;
 import com.tahsan.eventstorm.pojo.LoginRequest;
 import com.tahsan.eventstorm.pojo.LoginResponse;
 import com.tahsan.eventstorm.utilerias.Utileria;
 
-import org.json.JSONObject;
-
+import java.util.HashMap;
 import java.util.Map;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginFragment extends Fragment {
 
@@ -121,7 +117,8 @@ public class LoginFragment extends Fragment {
     }
 
     private void entrar() {
-        String usr = et_usuario.getText().toString(), password = et_contrasena.getText().toString();
+        String usr = et_usuario.getText().toString();
+        String password = et_contrasena.getText().toString();
         if (usr == "" || usr == null) {
             Toast.makeText(getContext(), getActivity().getString(R.string.no_usuario), Toast.LENGTH_SHORT).show();
             return;
@@ -143,44 +140,47 @@ public class LoginFragment extends Fragment {
         String passMD5 = Utileria.md5(password);
         showProgressBar();
 
-        Map<String, Object> jsonParams = new ArrayMap<>();
-        jsonParams.put("correo", usr);
-        jsonParams.put("passwSistema", passMD5);
-        jsonParams.put("token", "QWERTY");
+        final LoginRequest loginR = new LoginRequest(usr, passMD5,"QWERTY" );
 
-        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),(new JSONObject(jsonParams)).toString());
-
-        RetrofitClient.getServiceClass().getLogin(body).enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if(response.isSuccessful())
-                {
-                    LoginResponse reponseL = response.body();
-                    if(reponseL.exito){
-                        Utileria.savePreference_String(getContext(), getString(R.string.preference_username), reponseL.correo);
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        intent.putExtra("UsuarioID", reponseL.idUsuario);
-                        startActivity(intent);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Utileria.urlLogin,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
                         hideProgressBar();
-                        getActivity().finish();
+                        Gson gson = new Gson();
+                        LoginResponse loginResponse = gson.fromJson(response, LoginResponse.class);
+                        if(loginResponse.exito){
+                            Utileria.savePreference_String(getContext(), getString(R.string.preference_username), loginResponse.correo);
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            intent.putExtra("UsuarioID", loginResponse.idUsuario);
+                            startActivity(intent);
+                            hideProgressBar();
+                            getActivity().finish();
+                        }
+                        else{
+                            Toast.makeText(getContext(), loginResponse.error, Toast.LENGTH_LONG).show();
+                        }
                     }
-                    else{
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
                         hideProgressBar();
-                        Toast.makeText(getContext(), reponseL.error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),error.toString(),Toast.LENGTH_LONG).show();
                     }
-                }
-                else{
-                    hideProgressBar();
-                    Toast.makeText(getContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
-                    Log.d("LOGIN", response.errorBody().toString());
-                }
-            }
-
+                }){
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                hideProgressBar();
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("correo", loginR.getCorreo());
+                params.put("passwSistema", loginR.getPasswSistema());
+                params.put("token", loginR.getToken());
+
+                return params;
             }
-        });
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
      }
 }

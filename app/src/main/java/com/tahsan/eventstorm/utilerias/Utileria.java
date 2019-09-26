@@ -12,6 +12,10 @@ import java.security.NoSuchAlgorithmException;
 
 public class Utileria {
 
+    public static String urlLogin = "https://longe.olinrobotclub.com/api2/public/api/login";
+    public static String urlRegistrar = "https://longe.olinrobotclub.com/api2/public/api/registeruser";
+
+
     public static String md5(String s) {
         try {
             // Create MD5 Hash

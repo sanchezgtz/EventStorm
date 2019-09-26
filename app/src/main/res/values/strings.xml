@@ -6,10 +6,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="ht_user">correo</string>
     <string name="ht_contrasena">contraseña</string>
-    <string name="btn_entrar">Entrar</string>hello_blank_fragment
+    <string name="btn_entrar">Entrar</string>
     <string name="no_usuario">No ingresó el correo</string>
     <string name="no_password">No ingresó el password</string>
-    <string name="error_login">Usuario o contraseña incorrectos</string>
+    <string name="error_login">Correo o contraseña incorrectos</string>
     <string name="btn_registrar">Registrar</string>
     <string name="file_preferences">eventPrefence</string>
     <string name="preference_username">userName</string>

@@ -1,9 +1,7 @@
 package com.tahsan.eventstorm.fragmentos;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,30 +9,33 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.tahsan.eventstorm.MainActivity;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.tahsan.eventstorm.R;
-import com.tahsan.eventstorm.RetrofitClient;
 import com.tahsan.eventstorm.pojo.LoginRequest;
 import com.tahsan.eventstorm.pojo.LoginResponse;
 import com.tahsan.eventstorm.utilerias.Utileria;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegistrarFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     EditText et_usuario;
     EditText et_contrasena;
-    Button btn_registrar;
     ProgressBar loadingProgess;
 
     public RegistrarFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,38 +70,58 @@ public class RegistrarFragment extends Fragment {
     }
 
     private void registart(){
+
+        if (et_usuario.getText().toString() == "" || et_usuario.getText().toString() == null) {
+            Toast.makeText(getContext(), getActivity().getString(R.string.no_usuario), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(et_contrasena.getText().toString() == "" || et_contrasena.getText().toString() == null){
+            Toast.makeText(getContext(), getActivity().getString(R.string.no_password), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         showProgressBar();
         String passD5 = Utileria.md5(et_contrasena.getText().toString());
 
-        LoginRequest login = new LoginRequest(et_usuario.getText().toString(), passD5, "QWERTY" );
+        final LoginRequest register = new LoginRequest(et_usuario.getText().toString(), passD5, "QWERTY" );
 
-        RetrofitClient.getServiceClass().registrarUsuario(login).enqueue(new Callback<LoginResponse>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Utileria.urlRegistrar,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        hideProgressBar();
+                        Gson gson = new Gson();
+                        LoginResponse registerResponse = gson.fromJson(response, LoginResponse.class);
+                        if(registerResponse.exito){
+                            et_usuario.setText("");
+                            et_contrasena.setText("");
+                            Toast.makeText(getContext(), "Registro exitoso", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Toast.makeText(getContext(), registerResponse.error, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hideProgressBar();
+                        Toast.makeText(getContext(),error.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }){
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if(response.isSuccessful())
-                {
-                    LoginResponse reponseR = response.body();
-                    if(reponseR.exito){
-                        Toast.makeText(getContext(), getActivity().getString(R.string.registro_exitoso), Toast.LENGTH_SHORT).show();
-                        hideProgressBar();
-                    }
-                    else{
-                        hideProgressBar();
-                        Toast.makeText(getContext(), reponseR.error, Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else{
-                    hideProgressBar();
-                    Toast.makeText(getContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
-                }
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("correo", register.getCorreo());
+                params.put("passwSistema", register.getPasswSistema());
+                params.put("token", register.getToken());
+                return params;
             }
+        };
 
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                hideProgressBar();
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
     }
 
 }
