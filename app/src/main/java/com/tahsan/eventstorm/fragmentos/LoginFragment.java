@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,6 @@ import java.util.Map;
 
 public class LoginFragment extends Fragment {
 
-    SharedPreferences sharedpreferences;
     EditText et_usuario;
     EditText et_contrasena;
     Button btn_entrar;
@@ -65,8 +63,17 @@ public class LoginFragment extends Fragment {
         if(pass != "")  et_contrasena.setText(pass);
 
         check_Recordar.setChecked( pass == "" ? false : true);
+        String usuarioString = Utileria.getPreference_String(getContext(),  getString(R.string.preference_username));
 
-        usuario.setText(Utileria.getPreference_String(getContext(),  getString(R.string.preference_username)));
+        if(usuarioString != ""){
+            check_Recordar.setEnabled(true);
+            usuario.setText(usuarioString);
+        }
+        else{
+
+            check_Recordar.setEnabled(false);
+        }
+
 
         Button button =  view.findViewById(R.id.btn_entrar);
         button.setOnClickListener(new View.OnClickListener()
@@ -134,8 +141,10 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        if(check_Recordar.isChecked())
+        if(check_Recordar.isChecked()){
             Utileria.savePreference_String(getContext(), getString(R.string.recordar_password), et_contrasena.getText().toString());
+        }
+
 
         String passMD5 = Utileria.md5(password);
         showProgressBar();

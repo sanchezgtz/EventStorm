@@ -47,8 +47,8 @@ public class RegistrarFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_registrar, container, false);
-        et_usuario = view.findViewById(R.id.userReg);
-        et_contrasena = view.findViewById(R.id.userCorreo);
+        et_usuario = view.findViewById(R.id.userCorreo);
+        et_contrasena = view.findViewById(R.id.userContra);
         Button button =  view.findViewById(R.id.btn_registrar);
         loadingProgess = view.findViewById(R.id.pb_registrar);
 
